@@ -395,39 +395,44 @@
 <!-- Leaflet JS for Map -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    // Initialize the map
-var map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
+  // Initialize the map
+  var map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
 
-// Add OpenStreetMap tiles
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18,
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-// Locations data
-const locations = [
-  { name: 'Delhi', coords: [28.6139, 77.209], status: 'online' },
-  { name: 'Chennai', coords: [13.0827, 80.2707], status: 'online' },
-  { name: 'Vellore', coords: [12.9165, 79.1325], status: 'offline' },
-  { name: 'Mumbai', coords: [19.076, 72.8777], status: 'offline' }
-];
-
-// Adding markers
-locations.forEach(location => {
-  const markerColor = location.status === 'online' ? 'green' : 'red';
-
-  // Create a marker with a custom color indicator
-  const marker = L.circleMarker(location.coords, {
-    color: markerColor,
-    radius: 8,
-    fillOpacity: 0.8
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
-  // Bind a popup with product status
-  marker.bindPopup(`<b>${location.name}</b><br>Status: <span class="${location.status}"></span>`);
-});
+  // Locations data
+  const locations = [
+    { name: 'Delhi', coords: [28.6139, 77.209], status: 'online' },
+    { name: 'Chennai', coords: [13.0827, 80.2707], status: 'online' },
+    { name: 'Vellore', coords: [12.9165, 79.1325], status: 'offline' },
+    { name: 'Mumbai', coords: [19.076, 72.8777], status: 'offline' }
+  ];
 
+  // Adding markers
+  locations.forEach(location => {
+    const markerColor = location.status === 'online' ? 'green' : 'red';
+
+    // Create a marker with a custom color indicator
+    const marker = L.circleMarker(location.coords, {
+      color: markerColor,
+      radius: 8,
+      fillOpacity: 0.8
+    }).addTo(map);
+
+    // Bind a popup with product status
+    marker.bindPopup(`<b>${location.name}</b><br>Status: <span class="${location.status}"></span>`);
+
+    // Add a click event listener to redirect to dashboard.html
+    marker.on('click', function() {
+      window.location.href = 'dashboard.html';
+    });
+  });
 </script>
+
 <script>
   
   var options = {
