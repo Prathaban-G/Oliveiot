@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexCharts Line Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+  <div id="chart"></div>
+
+  <script>
+    // Example data for demonstration
+    var dates = [
+      { x: new Date("2023-01-01").getTime(), y: 2000000 },
+      { x: new Date("2023-02-01").getTime(), y: 4000000 },
+      { x: new Date("2023-03-01").getTime(), y: 3000000 },
+      { x: new Date("2023-04-01").getTime(), y: 5000000 },
+      { x: new Date("2023-05-01").getTime(), y: 6000000 }
+    ];
+
+    var options = {
+      series: [{
+        name: 'XYZ MOTORS',
+        data: dates
+      }],
+      chart: {
+        type: 'area',
+        stacked: false,
+        height: 350,
+        zoom: {
+          type: 'x',
+          enabled: true,
+          autoScaleYaxis: true
+        },
+        toolbar: {
+          show: false
+        },
+        background: 'transparent'  // Set chart background to transparent
+      },
+      dataLabels: {
+        enabled: false
+      },
+      markers: {
+        size: 0,
+      },
+      title: {
+        text: 'Stock Price Movement',
+        align: 'left'
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          inverseColors: false,
+          opacityFrom: 0.5,
+          opacityTo: 0,
+          stops: [0, 90, 100]
+        },
+      },
+      xaxis: {
+        labels: { show: false },
+        axisBorder: { show: false },
+        axisTicks: { show: false }
+      },
+      yaxis: {
+        labels: { show: false },
+        axisBorder: { show: false },
+        axisTicks: { show: false }
+      },
+      grid: {
+        show: false // Remove grid lines
+      },
+      tooltip: {
+        shared: false,
+        y: {
+          formatter: function (val) {
+            return (val / 1000000).toFixed(0); // Format tooltip value
+          }
+        }
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  </script>
+</body>
+</html>

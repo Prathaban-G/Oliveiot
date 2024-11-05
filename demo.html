@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <h5>$32,690</h5>
+                <p>Referral 40%</p>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5>Conversion</h5>
+                <p>60%</p>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5>170 Impressions</h5>
+                <p>Social, Email, Search</p>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <h5>Sales</h5>
+                <p>Calculated in last 7 days</p>
+                <canvas id="salesChart"></canvas>
+                <p>Best Selling: Saturday 28.6k</p>
+                <p>Lowest Selling: Thursday 7.9k</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5>Conversion</h5>
+                <p>$38,566</p>
+                <canvas id="miniLineChart1"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5>Income</h5>
+                <p>$53,659</p>
+                <canvas id="miniLineChart2"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <h5>78% Growth</h5>
+                <p>62% Growth in 2022</p>
+                <canvas id="gaugeChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Line Chart for Referrals
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                data: [30, 50, 20, 40, 70, 50, 90],
+                borderColor: '#4CAF50',
+                fill: false
+            }]
+        }
+    });
+
+    // Bar Chart for Conversion
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                data: [60, 40, 70, 30, 50, 80, 90],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#B072D4', '#26DAD2']
+            }]
+        }
+    });
+
+    // Doughnut Chart for Impressions
+    const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+    new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Social', 'Email', 'Search'],
+            datasets: [{
+                data: [40, 30, 30],
+                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+            }]
+        }
+    });
+
+    // Bar Chart for Sales
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+            datasets: [{
+                data: [20, 30, 25, 35, 20, 50, 60],
+                backgroundColor: '#6C63FF'
+            }]
+        }
+    });
+
+    // Small Line Charts for Conversion and Income
+    const miniLineCtx1 = document.getElementById('miniLineChart1').getContext('2d');
+    const miniLineCtx2 = document.getElementById('miniLineChart2').getContext('2d');
+    new Chart(miniLineCtx1, {
+        type: 'line',
+        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ data: [35, 25, 40, 30], borderColor: '#36A2EB', fill: false }] }
+    });
+    new Chart(miniLineCtx2, {
+        type: 'line',
+        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ data: [50, 60, 55, 45], borderColor: '#FFCE56', fill: false }] }
+    });
+
+    // Gauge Chart for Growth (useful for representation, but exact gauge charts may need plugins)
+    const gaugeCtx = document.getElementById('gaugeChart').getContext('2d');
+    new Chart(gaugeCtx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [78, 22],
+                backgroundColor: ['#4CAF50', '#E0E0E0'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            rotation: 1 * Math.PI,
+            circumference: 1 * Math.PI,
+            cutoutPercentage: 80,
+            plugins: {
+                tooltip: { enabled: false },
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+</body>
+</html>

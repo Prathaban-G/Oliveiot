@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Font Awesome for User SVG Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       
+            background-image:linear-gradient(to right bottom , rgba(159, 255, 250, 0.589),rgb(255, 255, 255));
+        }
+        /* Header styling */
+        header {
+            height: 70px;
+           background-color: #005e64;
+            display: flex;
+            align-items: center;
+            color: white;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2{
+            color: #005e64;
+            font-weight: bold;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        footer{
+            background-color:  #005e64;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+      
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            height: 40px;
+            border-radius: 50%;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            display: none;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown .user-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .user-dropdown .user-info img {
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-dropdown .user-info .role {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .user-dropdown a i {
+            margin-right: 8px;
+        }
+
+        .user-dropdown a:hover {
+            color: #007bff;
+        }
+        .company-name{
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;  
+        }
+     /* Navigation styling inside header */
+     .nav-links {
+        display: flex;
+        align-items: end;
+        gap: 15px;
+    }
+    .nav-links a {
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 15px;
+        transition: background-color 0.3s ease;
+    }
+    .nav-links a:hover {
+        background-color: #004b44c7;
+        color: #ffffff;
+        border-radius: 4px;
+    }
+       /* Main content */
+       main {
+        padding: 20px;
+        margin-top: 0px;
+        animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    #map {
+        height: 400px;
+        width: 100%;
+        margin-top: 20px;
+    }
+     /* top section */
+     .top-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+    .top-section div {
+        width: 23%;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+    .top-section div:hover {
+        transform: translateY(-10px);
+    }
+  
+    /* About section */
+    .about-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+    .about-section div {
+        width: 23%;
+        padding: 20px;
+     color: white;
+      
+        transition: transform 0.3s;
+    }
+    .about-section div:hover {
+        transform: translateY(-10px);
+    }
+    .metrics-card {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .metrics-card h5 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .metrics-card p {
+        margin: 5px 0;
+        color: #888;
+        transition: transform 0.3s;
+    }
+   
+    .table-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .table .badge-paid {
+        background-color: #d4f5e7;
+        color: #28a745;
+    }
+    .table .badge-unpaid {
+        background-color: #f8d7da;
+        color: #dc3545;
+    }
+    .table .action-icons i {
+        margin: 0 5px;
+        cursor: pointer;
+        color: #888;
+    }
+    .table .action-icons i:hover {
+        color: #000;
+    }
+    .metrics-card1:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(35, 149, 202);
+    }
+    .metrics-card2:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(174, 35, 202);
+    }
+    .metrics-card3:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(35, 202, 63);
+    }
+    .metrics-card4:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(202, 130, 35);
+    }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="logo">
+        <img src="olive.jpg" alt="Company Logo">
+        <h5 class="company-name">OLIVE IOT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INDUSTRIAL &nbsp;&nbsp;&nbsp;DATA &nbsp;&nbsp;&nbsp; LOGGER</h5>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="#home">HOME</a>
+        <a href="#products">PRODUCTS</a>
+        <a href="#admin">ADMIN</a>
+        <a href="#user">USER</a>
+
+    </div>
+
+    <!-- Logo and Company Name -->
+   
+    <!-- User Icon -->
+    <div class="user-profile">
+        <img src="man-user.svg" alt="User Avatar">
+        <div class="user-dropdown">
+            <div class="user-info">
+                <img src="man-user.svg" alt="User Avatar">
+                <div style="color: black;">
+                    <div class="name">Olive IOT</div>
+                    <div class="role">User</div>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    <h2>Home</h2>
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <div class="card">
+                <h5>$32,690</h5>
+                <p>Referral 40%</p>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h5>Conversion</h5>
+                <p>60%</p>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h5>Conversion</h5>
+                <p>$38,566</p>
+                <canvas id="miniLineChart1"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h5>Sales</h5>
+                <p>Calculated in last 7 days</p>
+                <canvas id="salesChart"></canvas>
+             
+            </div>
+        </div>
+
+    </div>
+    <h2>Our Products</h2>
+    
+    <div id="map"></div>
+   
+</main>
+<footer class="mt-5">  <!-- About Section -->
+    <section class="about-section">
+        <div>
+            <h4>About Us</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Our Services</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Our Team</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <p>Content goes here...</p>
+        </div>
+    </section></footer>
+
+<!-- Leaflet JS for Map -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize map
+    const map = L.map('map').setView([20.5937, 78.9629], 5);  // Centered on India
+
+    // Set map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+    }).addTo(map);
+
+    // Mark locations
+    const locations = [
+        { name: 'Chennai', coords: [13.0827, 80.2707] },
+        { name: 'Tiruvannamalai', coords: [12.2253, 79.0747] },
+        { name: 'Mumbai', coords: [19.0760, 72.8777] },
+        { name: 'Delhi', coords: [28.7041, 77.1025] }
+    ];
+
+    locations.forEach(location => {
+        L.marker(location.coords)
+         .addTo(map)
+         .bindPopup(location.name)
+         .openPopup();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Line Chart for Referrals
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                data: [30, 50, 20, 40, 70, 50, 90],
+                borderColor: '#4CAF50',
+                fill: false
+            }]
+        }
+    });
+
+    // Bar Chart for Conversion
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                data: [60, 40, 70, 30, 50, 80, 90],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#B072D4', '#26DAD2']
+            }]
+        }
+    });
+
+
+    // Bar Chart for Sales
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+            datasets: [{
+                data: [20, 30, 25, 35, 20, 50, 60],
+                backgroundColor: '#6C63FF'
+            }]
+        }
+    });
+
+    // Small Line Charts for Conversion and Income
+    const miniLineCtx1 = document.getElementById('miniLineChart1').getContext('2d');
+  
+    new Chart(miniLineCtx1, {
+        type: 'line',
+        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ data: [35, 25, 40, 30], borderColor: '#36A2EB', fill: false }] }
+    });
+   
+    
+</script>
+</body>
+</html>

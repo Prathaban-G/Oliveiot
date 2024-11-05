@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olive IOT</title>
+    <link rel="shortcut icon" href="olive.jpg" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Font Awesome for User SVG Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        /* Custom CSS */
+        body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       
+            background-image:linear-gradient(to right bottom , rgba(255, 255, 255, 0.774),rgb(255, 255, 255));
+        }
+        /* Header styling */
+        header {
+            height: 70px;
+           background-color: #005e64;
+            display: flex;
+            align-items: center;
+            color: white;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2{
+            color: #005d64a8;
+            font-weight: bold;
+            font-size: mediumt
+        }
+        footer{
+            background-color:  #005e64;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+      
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            height: 40px;
+            border-radius: 50%;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            display: none;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown .user-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .user-dropdown .user-info img {
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-dropdown .user-info .role {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .user-dropdown a i {
+            margin-right: 8px;
+        }
+
+        .user-dropdown a:hover {
+            color: #007bff;
+        }
+        .company-name{
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;  
+        }
+     /* Navigation styling inside header */
+     .nav-links {
+        display: flex;
+        align-items: end;
+        gap: 15px;
+    }
+    .nav-links a {
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 15px;
+        transition: background-color 0.3s ease;
+    }
+    .nav-links a:hover {
+        background-color: #004b44c7;
+        color: #ffffff;
+        border-radius: 4px;
+    }
+       /* Main content */
+       main {
+        padding: 3px 20px;
+        margin-top: 0px;
+        animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    #map {
+        height: 400px;
+        width: 100%;
+        margin-top: 20px;
+    }
+     /* top section */
+     .top-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+    .top-section div {
+        width: 23%;
+        padding: 20px;
+        background-color: #f9f9f9;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+    .top-section div:hover {
+        transform: translateY(-10px);
+    }
+  
+    /* About section */
+    .about-section {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+    .about-section div {
+        width: 23%;
+        padding: 20px;
+     color: white;
+      
+        transition: transform 0.3s;
+    }
+    .about-section div:hover {
+        transform: translateY(-10px);
+    }
+    .metrics-card {
+      
+       
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+       
+    }
+    .metrics-card h5 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .metrics-card p {
+        margin: 5px 0;
+        color: #888;
+        transition: transform 0.3s;
+    }
+   
+    .table-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .table .badge-paid {
+        background-color: #d4f5e7;
+        color: #28a745;
+    }
+    .table .badge-unpaid {
+        background-color: #f8d7da;
+        color: #dc3545;
+    }
+    .table .action-icons i {
+        margin: 0 5px;
+        cursor: pointer;
+        color: #888;
+    }
+    .table .action-icons i:hover {
+        color: #000;
+    }
+    .metrics-card1:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(0, 77, 112) !important;
+    }
+    .metrics-card2:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(174, 35, 202)!important;
+    }
+    .metrics-card3:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(35, 202, 63)!important;
+    }
+    .metrics-card4:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(202, 130, 35)!important;
+    }
+    .card-header
+    {
+        font-size: large;
+        font-weight: 400;
+        font-family: 'Times New Roman', Times, serif;
+    }
+.card-body
+{
+  color: #272525;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing: 2px;
+}
+.card-body span{
+  color:#005e64;
+}
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="logo">
+        <img src="olive.jpg" alt="Company Logo">
+        <h5 class="company-name">OLIVE IOT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INDUSTRIAL &nbsp;&nbsp;&nbsp;DATA &nbsp;&nbsp;&nbsp; LOGGER</h5>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="superadminhome.html">HOME</a>
+        <a href="products.html">PRODUCTS</a>
+        <a href="admin.html">ADMIN</a>
+        <a href="user.html">USER</a>
+
+    </div>
+
+    <!-- Logo and Company Name -->
+   
+    <!-- User Icon -->
+    <div class="user-profile">
+        <img src="man-user.svg" alt="User Avatar">
+        <div class="user-dropdown">
+            <div class="user-info">
+                <img src="man-user.svg" alt="User Avatar">
+                <div style="color: black;">
+                    <div class="name">Olive IOT</div>
+                    <div class="role">User</div>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    
+    <div class="row mt-3">
+        <div class="col-md-2">
+            <div class="card metrics-card metrics-card1 border-0 shadow py-3 px-2" style="height: 400px;">
+              
+                   
+               <h5 style="margin:10px"> <img src="summary.svg"  height="30px" width="30px" alt="" > Project Summary</h5>
+                <div class="card-body">
+                   Total Project - <span>100</span>
+                   <br><br>
+                   Live Project - <span>75</span>
+                   <br><br>
+                   Upcoming Project -<span>10</span>
+                </div>
+                
+              
+                
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card metrics-card metrics-card2 border-0 shadow">
+                
+                <div class="card-body">
+                    <div id="chart"></div>
+                </div>
+                
+              
+                
+            </div>
+           
+        </div>
+        <div class="col-md-5">
+            <div class="card metrics-card metrics-card3 border-0 shadow" >
+                
+                  
+                <div class="card-body">
+            <div id="chart-timeline"></div>
+
+                </div>
+                
+              
+                
+            </div>
+        </div>
+        <!-- <div class="col-md-3">
+            <div class="card metrics-card metrics-card4 border-0 shadow-sm">
+                <div class="card-header d-flex justify-content-around">
+                    <img src="summary.svg"  height="30px" width="30px" alt="" >
+                Project Summary</div>
+                <div class="card-body">
+                    Ecofinity -10
+                </div>
+                
+              
+                
+            </div> -->
+        </div>
+    </div>
+    <h2>Our Products</h2>
+    
+    <div id="map"></div>
+   
+</main>
+<footer class="mt-5">  <!-- About Section -->
+    <section class="about-section">
+        <div>
+            <h4>About Us</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Our Services</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Our Team</h4>
+            <p>Content goes here...</p>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <p>Content goes here...</p>
+        </div>
+    </section></footer>
+
+<!-- Leaflet JS for Map -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize map
+    const map = L.map('map').setView([20.5937, 78.9629], 5);  // Centered on India
+
+    // Set map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+    }).addTo(map);
+
+    // Mark locations
+    const locations = [
+        { name: 'Chennai', coords: [13.0827, 80.2707] },
+        { name: 'Tiruvannamalai', coords: [12.2253, 79.0747] },
+        { name: 'Mumbai', coords: [19.0760, 72.8777] },
+        { name: 'Delhi', coords: [28.7041, 77.1025] }
+    ];
+
+    locations.forEach(location => {
+        L.marker(location.coords)
+         .addTo(map)
+         .bindPopup(location.name)
+         .openPopup();
+    });
+</script>
+<script>
+  
+  var options = {
+    series: [
+    {
+      data: [
+        {
+          x: '2008',
+          y: [2800, 4500]
+        },
+        {
+          x: '2009',
+          y: [3200, 4100]
+        },
+        {
+          x: '2010',
+          y: [2950, 7800]
+        },
+        {
+          x: '2011',
+          y: [3000, 4600]
+        },
+        {
+          x: '2012',
+          y: [3500, 4100]
+        },
+        {
+          x: '2013',
+          y: [4500, 6500]
+        },
+        {
+          x: '2014',
+          y: [4100, 5600]
+        }
+      ]
+    }
+  ],
+    chart: {
+    height: 350,
+    type: 'rangeBar',
+    zoom: {
+      enabled: false
+    }
+  },
+  plotOptions: {
+    bar: {
+      isDumbbell: true,
+      columnWidth: 3,
+      dumbbellColors: [['#008FFB', '#00E396']]
+    }
+  },
+  legend: {
+    show: true,
+    showForSingleSeries: true,
+    position: 'top',
+    horizontalAlign: 'left',
+    customLegendItems: ['Product A', 'Product B']
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      type: 'vertical',
+      gradientToColors: ['#00E396'],
+      inverseColors: true,
+      stops: [0, 100]
+    }
+  },
+  grid: {
+    xaxis: {
+      lines: {
+        show: true
+      }
+    },
+    yaxis: {
+      lines: {
+        show: false
+      }
+    }
+  },
+  xaxis: {
+    tickPlacement: 'on'
+  }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+</script>
+ <script>
+  var options = {
+    series: [{
+    name: 'Sales',
+    data: [4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2, 7, 5]
+  }],
+    chart: {
+    height: 350,
+    type: 'line',
+  },
+  forecastDataPoints: {
+    count: 7
+  },
+  stroke: {
+    width: 5,
+    curve: 'smooth'
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000', '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001','4/11/2001' ,'5/11/2001' ,'6/11/2001'],
+    tickAmount: 10,
+    labels: {
+      formatter: function(value, timestamp, opts) {
+        return opts.dateFormatter(new Date(timestamp), 'dd MMM')
+      }
+    }
+  },
+  title: {
+    text: 'Forecast',
+    align: 'left',
+    style: {
+      fontSize: "16px",
+      color: '#666'
+    }
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shade: 'dark',
+      gradientToColors: [ '#FDD835'],
+      shadeIntensity: 1,
+      type: 'horizontal',
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 100, 100, 100]
+    },
+  }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart-timeline"), options);
+  chart.render();
+
+
+
+ </script>
+</body>
+</html>
