@@ -123,12 +123,18 @@
 <script>
   function submitForm()
   {
-    console.log("HI");
+  
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-    if(username == "Olive_iot" && password == "12345678")
+    if(username == "super_admin" && password == "12345678")
     {
       window.location.href="superadminhome.html";
+    }
+    else if(username == "admin" && password == "12345678"){
+      window.location.href="adminhome.html";
+    }
+    else if(username == "user" && password == "12345678"){
+      window.location.href="userdashboard.html";
     }
     else{
       alert("Invalid username or password");

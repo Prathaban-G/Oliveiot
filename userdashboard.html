@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olive IOT</title>
+    <link rel="shortcut icon" href="olive.jpg" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Font Awesome for User SVG Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       
+            background-image:linear-gradient(to right bottom , rgba(255, 255, 255, 0.774),rgb(255, 255, 255));
+        }
+        /* Header styling */
+        header {
+            height: 70px;
+           background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            color: rgb(0, 0, 0);
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2{
+            color: #005e64;
+            font-weight: bold;
+        }
+        footer{
+            background-color:  #005e64;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 100px;
+            margin-right: 10px;
+        }
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-badges {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+ 
+        .status-badges .badge {
+    background-color: #e7f7e7;
+    color: #4caf50;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.status-badges .badge i {
+    margin-right: 5px;
+}
+
+/* Badge for offline status */
+.badge-offline {
+    background-color: #f8d7da !important; /* Light red background */
+    color: #dc3545 !important; /* Red text color */
+}
+
+/* Badge for stopped mode */
+.badge-stopped {
+    background-color: #f8d7da !important; /* Light red background */
+    color: #dc3545 !important; /* Red text color */
+}
+
+/* Badge for online status */
+.badge-online {
+    background-color: #e7f7e7 !important; /* Light green background */
+    color: #4caf50 !important; /* Green text color */
+}
+
+/* Badge for running mode */
+.badge-running {
+    background-color: #e7f7e7 !important; /* Light green background */
+    color: #4caf50 !important; /* Green text color */
+}
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            height: 40px;
+            border-radius: 50%;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            display: none;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown .user-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .user-dropdown .user-info img {
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: black;
+        }
+
+        .user-dropdown .user-info .role {
+            font-size: 12px;
+            color: #000000;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 0;
+            font-size: 14px;
+         
+        }
+
+        .user-dropdown a i {
+            margin-right: 8px;
+        }
+
+        .user-dropdown a:hover {
+            color: #007bff;
+        }
+        .company-name{
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;  
+        }
+     /* Navigation styling inside header */
+     .nav-links {
+        display: flex;
+        align-items: end;
+        gap: 15px;
+    }
+    .nav-links a {
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 15px;
+        transition: background-color 0.3s ease;
+    }
+    .nav-links a:hover {
+        background-color: #004b44c7;
+        color: #ffffff;
+        border-radius: 4px;
+    }
+       /* Main content */
+       main {
+        padding: 20px;
+        margin-top: 0px;
+        animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .product
+    {
+        background-color: white;
+        border-top: 5px solid #477d81e7 !important;
+        border: 2px solid rgb(223, 223, 223);
+    }
+    .bottomcard {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        background-color: #ffffff;
+        color: #666;
+       
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    
+    .rightbottomcard {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+ 
+        margin: 20px auto;
+        background-color: #ffffff;
+        color: #666;
+       
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+ 
+    
+    .updated-time {
+        font-size:16px;
+        color: #717172;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    
+    .data-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        gap: 10px;
+    }
+    
+    .data-item {
+       margin: 10px 10px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 15px 2px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+    }
+    .data-item:hover{
+        transform: translateY(-10px);
+        border-bottom:2px solid rgb(107,113,255);
+    }
+    .data-item-red {
+        margin: 10px 10px;
+         background-color: #fff;
+         padding: 10px;
+         border-radius: 8px;
+         text-align: center;
+         box-shadow: 15px 2px 6px rgba(0, 0, 0, 0.05);
+         transition: transform 0.3s;
+     }
+     .data-item-red:hover{
+         transform: translateY(-10px);
+         border-bottom:2px solid  rgb(255,85,81);
+     }
+    
+   
+    .value {
+        font-size: 1.2em;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .label {
+        font-size: 0.9em;
+        color: #999;
+    }
+    
+    .updated-time a {
+        font-size: 18px;
+        text-decoration: none;
+        color: rgb(107,113,255);
+    }
+    #bioupdate{
+        font-size: 18px;
+        text-decoration: none;
+        color: rgb(255,85,81);
+    } 
+    .data-item-red img{
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        background-color: rgb(255, 220, 220);
+    }
+    .data-item img{
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        background-color: rgb(220, 234, 255);
+      
+    }
+    .backbutton
+    {
+        position: absolute;
+        
+        border-radius: 10px;
+       
+        top: 100px;
+        right: 40px;
+    }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="logo">
+        <img src="leafinity.svg"  alt="Company Logo">
+        <h5 class="company-name">Leafinity </h5>
+    </div>
+
+    <!-- Logo and Company Name -->
+    <div class="navbar-right">
+
+        <div class="status-badges">
+            <!-- Status Badge -->
+            <div class="badge {{ $status == 'Offline' ? 'badge-offline' : 'badge-online' }}">
+                <i class="fas fa-signal me-3"></i> Status: <span id="status">Online</span>
+            </div>
+
+          
+        </div>
+
+        <div class="user-profile">
+            <img src="man-user.svg" alt="User Avatar">
+            <div class="user-dropdown">
+                <div class="user-info">
+                    <img src="man-user.svg" alt="User Avatar">
+                    <div>
+                        <div class="name">Olive</div>
+                        <div class="role">User</div>
+                    </div>
+                </div>
+                <form id="logout-form" action="{{ route('logout')}}" method="POST" style="display: none;">
+                  
+                </form>
+                <a href="#"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    
+   
+           <div class="row py-0"><div class="mx-4 btn px-3" style="background-color:  #005e64;color:white;" onclick="window.location.href='userdashboard.html';"><img src="home.svg" alt="home" width="20px" height="20px">Dashboard</div>
+           <button class="mx-4 btn px-3" style="background-color:  #005e64;color:white;" onclick="window.location.href='userreport.html';">  <img src="userreport.svg" class="mx-2" height="20px" width="20px" alt="">Report</button></div>
+     
+  <div class="container-fluid">
+    <div class="row product bottomcard">
+     
+        <img src="product.svg"  alt="" srcset="">
+    </div>
+    <div class="row ">
+        <div class="col-lg-6 col-md-12  ">
+            <div class="bottomcard product">
+                <h2>Anaerobic Digestor Unit</h2>
+                <div class="updated-time">
+                    Last updated at <a href="#">September 27th 2024, 2:03:42 pm</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">  <div class=" data-item">
+                        <img src="fire.svg"  alt="Icon">
+                        <div class="value">418.06 m³/hr</div>
+                        <div class="label">Raw Bio-Gas (m³/hr)</div>
+                    </div></div>
+                  
+                    <div class="col-md-4 col-sm-12">  <div class="data-item">
+                        <img src="gas.svg"  alt="Icon">
+                        <div class="value">879295</div>
+                        <div class="label">Raw Bio-Gas</div>
+                    </div></div>
+                    <div class="col-md-4 col-sm-12">  <div class="data-item">
+                        <img src="methene.svg"  alt="Icon">
+                        <div class="value">55.2 % v/v</div>
+                        <div class="label">Methane (%v/v)</div>
+                    </div></div>
+                    <div class="col-md-4 col-sm-12"> <div class=" data-item">
+                       <img src="co2.svg"  alt="Icon">
+                        <div class="value">37.5 % v/v</div>
+                        <div class="label">Carbon Di-Oxide (%v/v)</div></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12"> <div class="data-item">
+                        <img src="biogas.svg" alt="Icon">
+                        <div class="value">39 ppm</div>
+                        <div class="label">Hydrogen Sulfide (ppm)</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12  ">
+            <div class="rightbottomcard product">
+                <h2>Bio-Gas Scrubber Unit</h2>
+                <div class="updated-time">
+                    Last updated at <a href="#" id="bioupdate">September 27th 2024, 2:03:42 pm</a>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">  <div class=" data-item-red">
+                        <img src="redfire.svg"  alt="Icon">
+                        <div class="value">418.06 m³/hr</div>
+                        <div class="label">Raw Bio-Gas (m³/hr)</div>
+                    </div></div>
+                  
+                    <div class="col-md-4 col-sm-12">  <div class="data-item-red">
+                        <img src="redgas.svg"  alt="Icon">
+                        <div class="value">879295</div>
+                        <div class="label">Raw Bio-Gas</div>
+                    </div></div>
+                    <div class="col-md-4 col-sm-12">  <div class="data-item-red">
+                        <img src="redmethene.svg"  alt="Icon">
+                        <div class="value">55.2 % v/v</div>
+                        <div class="label">Methane (%v/v)</div>
+                    </div></div>
+                    <div class="col-md-4 col-sm-12"> <div class=" data-item-red">
+                       <img src="redco2.svg"  alt="Icon">
+                        <div class="value">37.5 % v/v</div>
+                        <div class="label">Carbon Di-Oxide (%v/v)</div></div>
+                    </div>
+                    <div class="col-md-4 col-sm-12"> <div class="data-item-red">
+                        <img src="redbiogas.svg" alt="Icon">
+                        <div class="value">39 ppm</div>
+                        <div class="label">Hydrogen Sulfide (ppm)</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</main>
+
+
+
+</body>
+</html>

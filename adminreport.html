@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olive IOT</title>
+    <link rel="shortcut icon" href="olive.jpg" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Font Awesome for User SVG Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* Custom CSS */
+        body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       
+            background-image:linear-gradient(to right bottom , rgba(255, 255, 255, 0.774),rgb(255, 255, 255));
+        }
+        /* Header styling */
+        header {
+            height: 70px;
+           background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            color: rgb(0, 0, 0);
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2{
+            color: #005e64;
+            font-weight: bold;
+        }
+        footer{
+            background-color:  #005e64;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+      
+        .user-profile {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            height: 40px;
+            border-radius: 50%;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            display: none;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .user-profile:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown .user-info {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .user-dropdown .user-info img {
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown .user-info .name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-dropdown .user-info .role {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .user-dropdown a i {
+            margin-right: 8px;
+        }
+
+        .user-dropdown a:hover {
+            color: #007bff;
+        }
+        .company-name{
+            font-weight: bold;
+            color: #050505;
+            text-decoration: none;  
+        }
+     /* Navigation styling inside header */
+     .nav-links {
+        display: flex;
+        align-items: end;
+        gap: 15px;
+    }
+    .nav-links a {
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 15px;
+        transition: background-color 0.3s ease;
+    }
+    .nav-links a:hover {
+        background-color: #004b44c7;
+        color: #ffffff;
+        border-radius: 4px;
+    }
+       /* Main content */
+       main {
+        padding: 20px;
+        margin-top: 0px;
+        animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+ 
+   
+    .download-btn {
+        width: 90px;
+        background-color:#005e64;
+        color: white;
+        padding: 10px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .download-btn:hover {
+        background-color:#003336;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        border: 1px solid #e0e0e0;
+        padding: 10px;
+        font-size: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #f5f5f5;
+    }
+    .no-data {
+        text-align: center;
+        color: #888;
+    }
+    .results{
+        
+    text-align: center;
+    color: rgb(82, 77, 77);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    }
+    .form
+    {
+            text-align: center;
+            color: rgb(82, 77, 77);
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            
+    }
+    .top-row
+    {
+        font-size: 12px;
+    }
+    .backbutton
+    {
+        position: absolute;
+        
+        border-radius: 10px;
+       
+        top: 100px;
+        right: 40px;
+    }
+
+    </style>
+</head>
+<body>
+
+
+
+<header>
+    <div class="logo">
+        <img src="ecoinfinity.svg"  alt="Company Logo">
+        <h5 class="company-name">EcoInfinity &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INDUSTRIAL &nbsp;&nbsp;&nbsp;DATA &nbsp;&nbsp;&nbsp; LOGGER</h5>
+    </div>
+
+
+
+    <!-- Logo and Company Name -->
+   
+    <!-- User Icon -->
+    <div class="user-profile">
+        <img src="man-user.svg" alt="User Avatar">
+        <div class="user-dropdown">
+            <div class="user-info">
+                <img src="man-user.svg" alt="User Avatar">
+                <div style="color: black;">
+                    <div class="name">EcoInfinity</div>
+                    <div class="role">User</div>
+                </div>
+            </div>
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+</header>
+<!--  -->
+<main>
+
+    <button class="mx-4 btn backbutton" style="background-color:  #005e64;color:white;" onclick="window.location.href='adminhome.html';"><img src="home.svg" alt="home" width="20px" height="20px"> back </button>
+  
+    <h2><img src="report.svg" class="mx-3" height="30px" width="30px" alt="">Report</h2>
+  <div class="container-fluid px-5 py-4">
+    <div class="card shadow bg-light p-5 form">
+        <div class="row top-row">
+            <!-- Left Column - Header -->
+            <div class="col-md-6 ">
+                <div class="row">
+                    <div class="col-md-4">  <label for="datePicker">Select a date</label>
+                        <input type="date" id="datePicker" class="form-control"></div>
+                    <div class="col-md-4"><label for="products">Select hardware</label>
+                        <select name="product" class="form-control">
+                            <option value="HW-1">HW-1</option>
+                            <option value="HW-2">HW-2</option>
+                            <option value="HW-3">HW-3</option>
+                            <option value="HW-4">HW-4</option>
+                        </select></div>
+                    <div class="col-md-2 me-1"><button class="download-btn mt-4" onclick="downloadCSV()"><img src="excel.png" class="mx-2" height="20px" width="20px" alt="">CSV</button></div>
+                    <div class="col-md-2"><button class="download-btn mt-4" onclick="downloadPDF()"><img src="pdf.png" class="mx-2" height="20px" width="20px" alt="">PDF</button></div>
+
+                </div>
+               
+             
+            </div>
+        
+            <!-- Right Column - Cards with 5px gap -->
+            <div class="col-md-6 d-flex  flex-row gap-1">
+                <div class="card mx-2 " style="width: 50%;">
+                    <div class="results mt-1 p-2">Total Raw Bio-Gas Generation (m³/hr) </div><h1 class="text-center">0</h1>
+                </div>
+                <div class="card mx-2 p-2" style="width: 50%;">
+                    <div class="results mt-1">CBG Filled to Cascades (kg/hr)</div><h1 class="text-center">0</h1>
+                </div>
+            </div>
+        </div>
+        
+    
+        
+      
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>TIME (FROM - TO)</th>
+                    <th>TOTAL RAW BIO-GAS GENERATION (M³/HR)</th>
+                    <th>CBG FILLED TO CASCADES (KG/HR)</th>
+                    <th>CBG PURITY CH4 (% V/V)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" class="no-data">No data available</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+   
+  </div>
+</main>
+
+
+
+</body>
+</html>
