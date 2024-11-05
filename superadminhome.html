@@ -262,7 +262,12 @@
 .card-body span{
   color:#005e64;
 }
-    </style>
+
+  .online { background-color: green; border-radius: 50%; width: 12px; height: 12px; display: inline-block; }
+  .offline { background-color: red; border-radius: 50%; width: 12px; height: 12px; display: inline-block; }
+</style>
+
+
 </head>
 <body>
 
@@ -388,28 +393,38 @@
 <!-- Leaflet JS for Map -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script>
-    // Initialize map
-    const map = L.map('map').setView([20.5937, 78.9629], 5);  // Centered on India
+    // Initialize the map
+var map = L.map('map').setView([20.5937, 78.9629], 5); // Center of India
 
-    // Set map tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-    }).addTo(map);
+// Add OpenStreetMap tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
 
-    // Mark locations
-    const locations = [
-        { name: 'Chennai', coords: [13.0827, 80.2707] },
-        { name: 'Tiruvannamalai', coords: [12.2253, 79.0747] },
-        { name: 'Mumbai', coords: [19.0760, 72.8777] },
-        { name: 'Delhi', coords: [28.7041, 77.1025] }
-    ];
+// Locations data
+const locations = [
+  { name: 'Delhi', coords: [28.6139, 77.209], status: 'online' },
+  { name: 'Chennai', coords: [13.0827, 80.2707], status: 'online' },
+  { name: 'Vellore', coords: [12.9165, 79.1325], status: 'offline' },
+  { name: 'Mumbai', coords: [19.076, 72.8777], status: 'offline' }
+];
 
-    locations.forEach(location => {
-        L.marker(location.coords)
-         .addTo(map)
-         .bindPopup(location.name)
-         .openPopup();
-    });
+// Adding markers
+locations.forEach(location => {
+  const markerColor = location.status === 'online' ? 'green' : 'red';
+
+  // Create a marker with a custom color indicator
+  const marker = L.circleMarker(location.coords, {
+    color: markerColor,
+    radius: 8,
+    fillOpacity: 0.8
+  }).addTo(map);
+
+  // Bind a popup with product status
+  marker.bindPopup(`<b>${location.name}</b><br>Status: <span class="${location.status}"></span>`);
+});
+
 </script>
 <script>
   
