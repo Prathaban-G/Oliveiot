@@ -48,7 +48,55 @@
             width: 40px;
             margin-right: 10px;
         }
-      
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-badges {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+ 
+        .status-badges .badge {
+    background-color: #e7f7e7;
+    color: #4caf50;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.status-badges .badge i {
+    margin-right: 5px;
+}
+
+/* Badge for offline status */
+.badge-offline {
+    background-color: #f8d7da !important; /* Light red background */
+    color: #dc3545 !important; /* Red text color */
+}
+
+/* Badge for stopped mode */
+.badge-stopped {
+    background-color: #f8d7da !important; /* Light red background */
+    color: #dc3545 !important; /* Red text color */
+}
+
+/* Badge for online status */
+.badge-online {
+    background-color: #e7f7e7 !important; /* Light green background */
+    color: #4caf50 !important; /* Green text color */
+}
+
+/* Badge for running mode */
+.badge-running {
+    background-color: #e7f7e7 !important; /* Light green background */
+    color: #4caf50 !important; /* Green text color */
+}
         .user-profile {
             position: relative;
             cursor: pointer;
@@ -92,11 +140,12 @@
         .user-dropdown .user-info .name {
             font-weight: 600;
             font-size: 14px;
+            color: black;
         }
 
         .user-dropdown .user-info .role {
             font-size: 12px;
-            color: #888;
+            color: #000000;
         }
 
         .user-dropdown a {
@@ -260,6 +309,7 @@
         background-color: rgb(220, 234, 255);
       
     }
+
     </style>
 </head>
 <body>
@@ -277,23 +327,39 @@
     <a href="products.html">PRODUCTS</a>
     <a href="admin.html">ADMIN</a>
     <a href="user.html">USER</a>
-
+    
 </div>
     <!-- Logo and Company Name -->
-   
-    <!-- User Icon -->
-    <div class="user-profile">
-        <img src="man-user.svg" alt="User Avatar">
-        <div class="user-dropdown">
-            <div class="user-info">
-                <img src="man-user.svg" alt="User Avatar">
-                <div style="color: black;">
-                    <div class="name">Olive IOT</div>
-                    <div class="role">User</div>
-                </div>
+    <div class="navbar-right">
+        <div class="status-badges">
+            <!-- Status Badge -->
+            <div class="badge {{ $status == 'Offline' ? 'badge-offline' : 'badge-online' }}">
+                <i class="fas fa-signal me-3"></i> Status: <span id="status">Online</span>
             </div>
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+          
         </div>
+
+        <div class="user-profile">
+            <img src="man-user.svg" alt="User Avatar">
+            <div class="user-dropdown">
+                <div class="user-info">
+                    <img src="man-user.svg" alt="User Avatar">
+                    <div>
+                        <div class="name">Olive</div>
+                        <div class="role">User</div>
+                    </div>
+                </div>
+                <form id="logout-form" action="{{ route('logout')}}" method="POST" style="display: none;">
+                  
+                </form>
+                <a href="#"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
     </div>
 </header>
 
@@ -313,28 +379,28 @@
                     Last updated at <a href="#">September 27th 2024, 2:03:42 pm</a>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col sm-12">  <div class=" data-item">
+                    <div class="col-md-4 col-sm-12">  <div class=" data-item">
                         <img src="fire.svg"  alt="Icon">
                         <div class="value">418.06 m³/hr</div>
                         <div class="label">Raw Bio-Gas (m³/hr)</div>
                     </div></div>
                   
-                    <div class="col-md-4 col sm-12">  <div class="data-item">
+                    <div class="col-md-4 col-sm-12">  <div class="data-item">
                         <img src="gas.svg"  alt="Icon">
                         <div class="value">879295</div>
                         <div class="label">Raw Bio-Gas</div>
                     </div></div>
-                    <div class="col-md-4 col sm-12">  <div class="data-item">
+                    <div class="col-md-4 col-sm-12">  <div class="data-item">
                         <img src="methene.svg"  alt="Icon">
                         <div class="value">55.2 % v/v</div>
                         <div class="label">Methane (%v/v)</div>
                     </div></div>
-                    <div class="col-md-4 col sm-12"> <div class=" data-item">
+                    <div class="col-md-4 col-sm-12"> <div class=" data-item">
                        <img src="co2.svg"  alt="Icon">
                         <div class="value">37.5 % v/v</div>
                         <div class="label">Carbon Di-Oxide (%v/v)</div></div>
                     </div>
-                    <div class="col-md-4 col sm-12"> <div class="data-item">
+                    <div class="col-md-4 col-sm-12"> <div class="data-item">
                         <img src="biogas.svg" alt="Icon">
                         <div class="value">39 ppm</div>
                         <div class="label">Hydrogen Sulfide (ppm)</div></div>
@@ -349,28 +415,28 @@
                     Last updated at <a href="#" id="bioupdate">September 27th 2024, 2:03:42 pm</a>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col sm-12">  <div class=" data-item-red">
+                    <div class="col-md-4 col-sm-12">  <div class=" data-item-red">
                         <img src="redfire.svg"  alt="Icon">
                         <div class="value">418.06 m³/hr</div>
                         <div class="label">Raw Bio-Gas (m³/hr)</div>
                     </div></div>
                   
-                    <div class="col-md-4 col sm-12">  <div class="data-item-red">
+                    <div class="col-md-4 col-sm-12">  <div class="data-item-red">
                         <img src="redgas.svg"  alt="Icon">
                         <div class="value">879295</div>
                         <div class="label">Raw Bio-Gas</div>
                     </div></div>
-                    <div class="col-md-4 col sm-12">  <div class="data-item-red">
+                    <div class="col-md-4 col-sm-12">  <div class="data-item-red">
                         <img src="redmethene.svg"  alt="Icon">
                         <div class="value">55.2 % v/v</div>
                         <div class="label">Methane (%v/v)</div>
                     </div></div>
-                    <div class="col-md-4 col sm-12"> <div class=" data-item-red">
+                    <div class="col-md-4 col-sm-12"> <div class=" data-item-red">
                        <img src="redco2.svg"  alt="Icon">
                         <div class="value">37.5 % v/v</div>
                         <div class="label">Carbon Di-Oxide (%v/v)</div></div>
                     </div>
-                    <div class="col-md-4 col sm-12"> <div class="data-item-red">
+                    <div class="col-md-4 col-sm-12"> <div class="data-item-red">
                         <img src="redbiogas.svg" alt="Icon">
                         <div class="value">39 ppm</div>
                         <div class="label">Hydrogen Sulfide (ppm)</div></div>
